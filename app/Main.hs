@@ -2,15 +2,17 @@ module Main where
 
 import Control.Monad.State
 import Data.Char
+import Data.Time.Clock.System
 import Lib
 
 charSize :: Int
 charSize = 16
 
-seed = 142857
+timeBasedSeed :: IO Int
+timeBasedSeed = fromIntegral . systemSeconds <$> getSystemTime
 
-pseudoRandomBits :: BinStream
-pseudoRandomBits = evalState pseudoRandomBitsS (toBinary seed)
+pseudoRandomBits :: Int -> BinStream
+pseudoRandomBits seed = evalState pseudoRandomBitsS (toBinary seed)
 
 grp :: Int -> [a] -> [[a]]
 grp _ [] = []
@@ -20,4 +22,7 @@ binChars :: BinStream -> String
 binChars = map (chr . toDecimal) . grp charSize
 
 main :: IO ()
-main = putStrLn $ binChars pseudoRandomBits
+main = do
+  seed <- timeBasedSeed
+  putStrLn $ binChars $ pseudoRandomBits seed
+
