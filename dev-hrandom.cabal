@@ -32,6 +32,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , mtl
   default-language: Haskell2010
 
 executable dev-hrandom-exe
@@ -44,6 +45,7 @@ executable dev-hrandom-exe
   build-depends:
       base >=4.7 && <5
     , dev-hrandom
+    , mtl
   default-language: Haskell2010
 
 test-suite dev-hrandom-test
@@ -57,4 +59,5 @@ test-suite dev-hrandom-test
   build-depends:
       base >=4.7 && <5
     , dev-hrandom
+    , mtl
   default-language: Haskell2010
