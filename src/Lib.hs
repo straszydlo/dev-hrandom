@@ -21,7 +21,7 @@ nextBitS = do
   return newBit
   where modularExp :: Int -> Int
         modularExp 0 = 1
-        modularExp exponent = (base * modularExp (exponent - 1)) `mod` modulus
+        modularExp exponent = fromIntegral (base ^ exponent `mod` modulus) :: Int
         modulus = 2137 --completely arbitrary prime
         base = 10 --smallest generator for Z2137 cyclic group
         xor a b = (a || b) && not (a && b)
