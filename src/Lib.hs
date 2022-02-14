@@ -26,11 +26,13 @@ nextBitS = do
         base = 10 --smallest generator for Z2137 cyclic group
         xor a b = (a || b) && not (a && b)
 
+pseudoRandomBitsS :: State BinNumber BinStream
+pseudoRandomBitsS = sequence $ repeat nextBitS
+
 toBinary :: Int -> BinNumber
 toBinary = pad . reverse . reversedDigits
   where reversedDigits 0 = [False]
         reversedDigits 1 = [True]
         reversedDigits n = (n `mod` 2 == 1):(reversedDigits (n `div` 2))
-        pad :: [BinDigit] -> [BinDigit]
         pad digits = replicate (64 - length digits) False ++ digits
 

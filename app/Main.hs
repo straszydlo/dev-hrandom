@@ -7,8 +7,10 @@ import Lib
 charSize :: Int
 charSize = 16
 
-bits :: BinStream
-bits = cycle [False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, True] --infinite stream of 65s encoded in a pseudo-binary fashion, to be replaced with real implementation
+seed = 142857
+
+pseudoRandomBits :: BinStream
+pseudoRandomBits = evalState pseudoRandomBitsS (toBinary seed)
 
 grp :: Int -> [a] -> [[a]]
 grp _ [] = []
@@ -18,4 +20,4 @@ binChars :: BinStream -> String
 binChars = map (chr . toDecimal) . grp charSize
 
 main :: IO ()
-main = putStrLn $ binChars bits
+main = putStrLn $ binChars pseudoRandomBits
