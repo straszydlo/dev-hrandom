@@ -2,8 +2,11 @@ module Main where
 
 import Control.Monad.State
 import Data.Char
+import Data.Text.Lazy hiding (drop, map, take)
+import qualified Data.Text.Lazy.IO as Text(putStr)
 import Data.Time.Clock.System
 import Lib
+import Main.Utf8
 
 charSize :: Int
 charSize = 16
@@ -22,7 +25,7 @@ binChars :: BinStream -> String
 binChars = map (chr . toDecimal) . grp charSize
 
 main :: IO ()
-main = do
+main = withUtf8 $ do
   seed <- timeBasedSeed
-  putStrLn $ binChars $ pseudoRandomBits seed
+  Text.putStr $ pack $ binChars $ pseudoRandomBits seed
 
