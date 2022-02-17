@@ -2,7 +2,8 @@ module Main where
 
 import Control.Monad.State
 import Data.Char
-import Data.Text.Lazy hiding (drop, map, take)
+import Data.List.Split
+import Data.Text.Lazy hiding (chunksOf, drop, map, take)
 import qualified Data.Text.Lazy.IO as Text(putStr)
 import Data.Time.Clock.System
 import Lib
@@ -17,12 +18,8 @@ timeBasedSeed = fromIntegral . systemSeconds <$> getSystemTime
 pseudoRandomBits :: Int -> BinStream
 pseudoRandomBits seed = evalState pseudoRandomBitsS (toBinary seed)
 
-grp :: Int -> [a] -> [[a]]
-grp _ [] = []
-grp n list = (take n list):(grp n (drop n list))
-
 binChars :: BinStream -> String
-binChars = map (chr . toDecimal) . grp charSize
+binChars = map (chr . toDecimal) . chunksOf charSize
 
 main :: IO ()
 main = withUtf8 $ do

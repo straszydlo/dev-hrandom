@@ -1,13 +1,14 @@
 module Lib where
 
 import Control.Monad.State
+import Data.List(foldl')
 
 type BinDigit = Bool
 type BinNumber = [BinDigit]
 type BinStream = BinNumber
 
 toDecimal :: BinNumber -> Int
-toDecimal = foldl (\acc elem -> 2*acc + if elem then 1 else 0) 0
+toDecimal = foldl' (\acc elem -> 2*acc + if elem then 1 else 0) 0
 
 nextBitS :: State BinNumber BinDigit
 nextBitS = do
